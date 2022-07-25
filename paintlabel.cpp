@@ -3,6 +3,7 @@
 PaintLabel::PaintLabel(QWidget *parent)
            : QLabel (parent)
            , mTextColor(QColor(0,255,0))
+           , mCoordType(ABSOLUTE)
 {
 
 }
@@ -19,9 +20,17 @@ void PaintLabel::showText(QPainter *painter, QList<QPoint> pointL)
     painter->setPen(mTextColor);
     for (int i = 0; i < pointL.size(); i++) {
         QPoint p = pointL.value(i);
-        double w = double(p.x()) / width();
-        double h = double(p.y()) / height();
-        QString text = QString("(%1,%2)").arg(w, 4, 'g').arg(h, 4, 'g');
+        QString text;
+        if(mCoordType == REALTIVE)
+        {
+            double w = double(p.x()) / width();
+            double h = double(p.y()) / height();
+            text = QString("(%1,%2)").arg(w, 4, 'g').arg(h, 4, 'g');
+        }
+        else
+        {
+            text = QString("(%1,%2)").arg(p.x()).arg(p.y());
+        }
         painter->drawText(p, text);
     }
     painter->restore();
@@ -30,6 +39,11 @@ void PaintLabel::showText(QPainter *painter, QList<QPoint> pointL)
 void PaintLabel::setTextColor(QColor color)
 {
     mTextColor = color;
+}
+
+void PaintLabel::setCoordType(PaintLabel::COORD_TYPE type)
+{
+    mCoordType = type;
 }
 
 void PaintLabel::paintEvent(QPaintEvent *)

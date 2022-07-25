@@ -29,8 +29,10 @@ private:
 
     QMenu *pMenu;
     QAction *pChangeImg;
+    QAction *pCoordType;
     QAction *pClear;
     QString mFileName;
+    bool IS_RELATIVE;
 
 };
 

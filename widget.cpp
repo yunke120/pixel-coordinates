@@ -4,14 +4,17 @@
 #include <QDebug>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
+    ui(new Ui::Widget),
+    IS_RELATIVE(true)
 {
     ui->setupUi(this);
 
     pMenu = new QMenu(this);
     pChangeImg = new QAction("Select Image", this);
     pClear = new QAction("Clear Content", this);
+    pCoordType = new QAction("Display Relative Coordinates", this);
     pMenu->addAction(pChangeImg);
+    pMenu->addAction(pCoordType);
     pMenu->addAction(pClear);
 
     connect(pChangeImg, &QAction::triggered, this, [=](){
@@ -24,6 +27,21 @@ Widget::Widget(QWidget *parent) :
         displayImage(mFileName);
     });
 
+    connect(pCoordType, &QAction::triggered, this, [=](){
+
+        if(pCoordType->text() == "Display Relative Coordinates")
+        {
+            ui->label->setCoordType(ui->label->REALTIVE);
+            pCoordType->setText("Display Absolute Coordinates");
+        }
+        else
+        {
+            ui->label->setCoordType(ui->label->ABSOLUTE);
+            pCoordType->setText("Display Relative Coordinates");
+        }
+        ui->label->update();
+    });
+
     connect(pClear, &QAction::triggered, this, [=](){
         ui->label->gPointList.clear();
         ui->label->update();
@@ -32,6 +50,7 @@ Widget::Widget(QWidget *parent) :
 
     ui->label->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->label->setTextColor(QColor(255,0,0));
+
 
     connect(ui->label,&QLabel::customContextMenuRequested,[=](const QPoint &pos)
     {
@@ -60,8 +79,6 @@ void Widget::mouseReleaseEvent(QMouseEvent *event)
     {
         ui->label->gPointList.append(event->pos());
         ui->label->update();
-//        qDebug() << double(event->pos().x()) / ui->label->width();
-//        qDebug() << double(event->pos().y()) / ui->label->height();
     }
 }
 
