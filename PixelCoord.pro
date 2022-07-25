@@ -2,7 +2,7 @@
 
 QT       += core gui widgets
 
-TARGET = RelativeCoord
+TARGET = PixelCoord
 TEMPLATE = app
 DESTDIR = $$PWD/bin
 
@@ -22,4 +22,10 @@ HEADERS += \
 
 FORMS += \
         widget.ui
+
+RESOURCES += \
+    resources.qrc
+
+
+RC_ICONS = logo.ico
 
