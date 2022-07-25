@@ -9,6 +9,8 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("Pixel Coordinates");
+
     pMenu = new QMenu(this);
     pChangeImg = new QAction("Select Image", this);
     pClear = new QAction("Clear Content", this);
