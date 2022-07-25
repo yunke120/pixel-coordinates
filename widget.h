@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QFileDialog>
+#include <QColorDialog>
 #include <QMouseEvent>
 
 namespace Ui {
@@ -30,6 +31,7 @@ private:
     QMenu *pMenu;
     QAction *pChangeImg;
     QAction *pCoordType;
+    QAction *pTextColor;
     QAction *pClear;
     QString mFileName;
     bool IS_RELATIVE;

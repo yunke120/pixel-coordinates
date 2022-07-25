@@ -13,7 +13,9 @@ Widget::Widget(QWidget *parent) :
     pChangeImg = new QAction("Select Image", this);
     pClear = new QAction("Clear Content", this);
     pCoordType = new QAction("Display Relative Coordinates", this);
+    pTextColor = new QAction("Select Text Color", this);
     pMenu->addAction(pChangeImg);
+    pMenu->addAction(pTextColor);
     pMenu->addAction(pCoordType);
     pMenu->addAction(pClear);
 
@@ -47,9 +49,15 @@ Widget::Widget(QWidget *parent) :
         ui->label->update();
     });
 
+    connect(pTextColor, &QAction::triggered, this, [=](){
+
+        QColor color = QColorDialog::getColor(Qt::white, this);
+        ui->label->setTextColor(color);
+        ui->label->update();
+    });
+
 
     ui->label->setContextMenuPolicy(Qt::CustomContextMenu);
-    ui->label->setTextColor(QColor(255,0,0));
 
 
     connect(ui->label,&QLabel::customContextMenuRequested,[=](const QPoint &pos)
