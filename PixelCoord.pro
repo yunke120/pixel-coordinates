@@ -13,11 +13,9 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        paintlabel.cpp \
         widget.cpp
 
 HEADERS += \
-        paintlabel.h \
         widget.h
 
 FORMS += \

@@ -8,6 +8,9 @@
 #include <QColorDialog>
 #include <QMouseEvent>
 
+#include <QGraphicsView>
+#include <QGraphicsRectItem>
+
 namespace Ui {
 class Widget;
 }
@@ -20,11 +23,6 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    void displayImage(const QString &fileName);
-protected:
-
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-
 private:
     Ui::Widget *ui;
 
@@ -35,6 +33,9 @@ private:
     QAction *pClear;
     QString mFileName;
     bool IS_RELATIVE;
+
+
+    QGraphicsScene *mScene;
 
 };
 

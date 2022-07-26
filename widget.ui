@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>756</width>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,22 +30,11 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="PaintLabel" name="label">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
+    <widget class="QGraphicsView" name="graphicsView"/>
    </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>PaintLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">paintlabel.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
