@@ -13,9 +13,11 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
+        mygraphicsview.cpp \
         widget.cpp
 
 HEADERS += \
+        mygraphicsview.h \
         widget.h
 
 FORMS += \

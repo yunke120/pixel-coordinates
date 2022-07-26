@@ -2,14 +2,11 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <QMenu>
-#include <QAction>
-#include <QFileDialog>
-#include <QColorDialog>
+
 #include <QMouseEvent>
 
 #include <QGraphicsView>
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 
 namespace Ui {
 class Widget;
@@ -23,19 +20,18 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
+protected:
+
+//    virtual void wheelEvent(QWheelEvent *event);
+
+
 private:
     Ui::Widget *ui;
 
-    QMenu *pMenu;
-    QAction *pChangeImg;
-    QAction *pCoordType;
-    QAction *pTextColor;
-    QAction *pClear;
-    QString mFileName;
-    bool IS_RELATIVE;
 
 
-    QGraphicsScene *mScene;
+
+
 
 };
 
