@@ -2,7 +2,9 @@
 #define MYGRAPHICSVIEW_H
 
 #include <QGraphicsView>
+#include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsSimpleTextItem>
 #include <QWheelEvent>
 #include <QTimer>
 
@@ -17,6 +19,11 @@ public:
     MyGraphicsView(QWidget *parent = nullptr);
     ~MyGraphicsView();
 
+    enum COORD_TYPE{
+            REALTIVE,
+            ABSOLUTE
+    };
+
     void showImage(const QString &filename);
 protected:
 
@@ -25,11 +32,20 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event) ;
     virtual void mouseReleaseEvent(QMouseEvent *event) ;
 
+    virtual void showEvent(QShowEvent *event);
+
+//    virtual void resizeEvent(QResizeEvent *event);
+
+
+private slots:
+    void slotChangeImgTriggered();
+    void slotCoordTypeTriggered();
+    void slotTextColorTriggered();
+    void slotClearTriggered();
 
 private:
 
-    void zoomIn();
-    void zoomOut();
+    void menuInit();
 
     QMenu *pMenu;
     QAction *pChangeImg;
@@ -39,12 +55,19 @@ private:
     QString mFileName;
     bool IS_RELATIVE;
 
+    bool IS_Translate;
+    bool IS_Translate2;
 
     QTimer *pTimer;
     QGraphicsScene *pScene;
     QGraphicsPixmapItem *pixmapItem;
-    bool IS_Translate;
+    QList<QGraphicsSimpleTextItem *> mSimpleTextItemList;
+    QColor mTextColor;
+
     QPoint mLastPos;
+    QSize imgSize;
+
+    COORD_TYPE mCoordType;
 
 
 };

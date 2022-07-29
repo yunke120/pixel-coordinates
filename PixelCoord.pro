@@ -13,15 +13,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mygraphicsview.cpp \
-        widget.cpp
+        mygraphicsview.cpp
 
 HEADERS += \
-        mygraphicsview.h \
-        widget.h
+        mygraphicsview.h
 
-FORMS += \
-        widget.ui
+FORMS +=
 
 RESOURCES += \
     resources.qrc
