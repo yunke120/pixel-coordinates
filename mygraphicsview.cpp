@@ -8,6 +8,7 @@ MyGraphicsView::MyGraphicsView(QWidget *parent)
                , mTextColor(QColor(255,0,0))
                , mCoordType(ABSOLUTE)
 {
+    this->setWindowTitle("PixelCoord V2.1");
     this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse); // scaled变换时以鼠标为中心变换
 
 }
@@ -182,10 +183,12 @@ void MyGraphicsView::showImage(const QString &filename)
     QImage image(filename);
     if(image.isNull()) return;
     slotClearTriggered();
-    QImage img = image.scaled(800,600,Qt::KeepAspectRatio);
-    imgSize = img.size();
-    this->resize(imgSize);
-    pScene->setSceneRect(-viewport()->width()/2,-viewport()->height()/2,viewport()->width()*2, viewport()->height()*2);
+//    QImage img = image.scaled(800,600,Qt::KeepAspectRatio); /* 图片压缩之后太模糊，弃用 */
+//    imgSize = img.size();
+//    this->resize(imgSize);
+    imgSize = image.size();
+    pScene->setSceneRect(-image.width()/2,-image.height()/2,image.width()*2, image.height()*2);
     pixmapItem->setPos(0,0);
-    pixmapItem->setPixmap(QPixmap::fromImage(img));
+//    pixmapItem->setPos((viewport()->width()-image.width())/2, (viewport()->height()-image.height())/2);
+    pixmapItem->setPixmap(QPixmap::fromImage(image));
 }
