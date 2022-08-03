@@ -32,11 +32,6 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event) ;
     virtual void mouseReleaseEvent(QMouseEvent *event) ;
 
-    virtual void showEvent(QShowEvent *event);
-
-//    virtual void resizeEvent(QResizeEvent *event);
-
-
 private slots:
     void slotChangeImgTriggered();
     void slotCoordTypeTriggered();
@@ -57,6 +52,7 @@ private:
 
     bool IS_Translate;
     bool IS_Translate2;
+    bool IS_Menu;
 
     QTimer *pTimer;
     QGraphicsScene *pScene;

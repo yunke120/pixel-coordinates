@@ -5,11 +5,39 @@ MyGraphicsView::MyGraphicsView(QWidget *parent)
                : QGraphicsView(parent)
                , IS_Translate(false)
                , IS_Translate2(false)
+               , IS_Menu(false)
                , mTextColor(QColor(255,0,0))
                , mCoordType(ABSOLUTE)
 {
-    this->setWindowTitle("PixelCoord V2.1");
+    this->setWindowTitle("PixelCoord V2.1.2");
     this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse); // scaled变换时以鼠标为中心变换
+
+    QImage image(":/show.png");
+    if(image.isNull()) return;
+    QImage img = image.scaled(800,600,Qt::KeepAspectRatio);
+    imgSize = img.size();
+    this->resize(imgSize);
+
+    pScene = new QGraphicsScene(this);
+    pScene->setSceneRect(-viewport()->width()/2,-viewport()->height()/2,viewport()->width()*2, viewport()->height()*2);
+    pScene->setBackgroundBrush(Qt::gray);
+    this->setScene(pScene);
+
+    pixmapItem = new QGraphicsPixmapItem();
+    pixmapItem->setPixmap(QPixmap::fromImage(img));
+    pixmapItem->setPos(0,0);
+    pScene->addItem(pixmapItem);
+
+    menuInit();
+
+    pTimer = new QTimer(this);
+    pTimer->setInterval(150);
+    connect(pTimer, &QTimer::timeout, [=](){
+        IS_Translate = true;
+        this->setCursor(Qt::OpenHandCursor);
+        pTimer->stop();
+//        this->setDragMode(QGraphicsView::ScrollHandDrag); //设置鼠标显示为手型
+    });
 
 }
 
@@ -28,6 +56,7 @@ void MyGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
     if(IS_Translate)
     {
+        this->setCursor(Qt::ClosedHandCursor);
         QPointF posDelta = event->pos() - mLastPos;
 
         int w = viewport()->rect().width();
@@ -44,6 +73,11 @@ void MyGraphicsView::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
+        if(IS_Menu)
+        {
+            IS_Menu = false;
+            return;
+        }
         QPointF p1 = mapToScene(event->pos());
         QPoint p3(int(p1.x()), int(p1.y()));
         QPointF p2 = pixmapItem->mapToScene(p3);
@@ -75,44 +109,17 @@ void MyGraphicsView::mousePressEvent(QMouseEvent *event)
 void MyGraphicsView::mouseReleaseEvent(QMouseEvent *)
 {
     if(pTimer->isActive()) pTimer->stop();
-    if(IS_Translate)
+    if(IS_Translate) /* 拖动后释放右键 */
     {
         IS_Translate2 = true;
         IS_Translate = false;
-        this->setDragMode(QGraphicsView::NoDrag); //设置鼠标显示为手型
+//        this->setDragMode(QGraphicsView::NoDrag);
+        this->setCursor(Qt::ArrowCursor);
     }
 
 
 }
 
-void MyGraphicsView::showEvent(QShowEvent *)
-{
-    QImage image(":/show.png");
-    if(image.isNull()) return;
-    QImage img = image.scaled(800,600,Qt::KeepAspectRatio);
-    imgSize = img.size();
-    this->resize(imgSize);
-
-    pScene = new QGraphicsScene(this);
-    pScene->setSceneRect(-viewport()->width()/2,-viewport()->height()/2,viewport()->width()*2, viewport()->height()*2);
-    pScene->setBackgroundBrush(Qt::gray);
-    this->setScene(pScene);
-
-    pixmapItem = new QGraphicsPixmapItem();
-    pixmapItem->setPixmap(QPixmap::fromImage(img));
-    pixmapItem->setPos(0,0);
-    pScene->addItem(pixmapItem);
-
-    menuInit();
-
-    pTimer = new QTimer(this);
-    pTimer->setInterval(150);
-    connect(pTimer, &QTimer::timeout, [=](){
-        IS_Translate = true;
-        this->setDragMode(QGraphicsView::ScrollHandDrag); //设置鼠标显示为手型
-    });
-
-}
 
 void MyGraphicsView::slotChangeImgTriggered()
 {
@@ -168,8 +175,11 @@ void MyGraphicsView::menuInit()
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,&QGraphicsView::customContextMenuRequested,[=](const QPoint &)
         {
-        if(!IS_Translate2)
+        if(!IS_Translate2) /* 在150ms内（未进入拖动状态）松开右键 */
+        {
+            IS_Menu = true;
             pMenu->exec(QCursor::pos());
+        }
     });
 
     connect(pChangeImg, &QAction::triggered, this, &MyGraphicsView::slotChangeImgTriggered);
