@@ -32,4 +32,4 @@
 *.app
 
 *.pro.user
-bin/
+build/
