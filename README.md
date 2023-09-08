@@ -13,6 +13,12 @@
 5. 滚轮放大
 6. 右键按下拖动
 
+## 演示视频
+
+[跳转](https://www.bilibili.com/video/BV18a411Z7zN/?share_source=copy_web&vd_source=f06a9df5c06f51cc84a1106139be7062)
+
+<iframe src="//player.bilibili.com/player.html?aid=258998462&bvid=BV18a411Z7zN&cid=787503785&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
 ## 显示
 
 ![1659069507096](figures/1659069507096.png)
